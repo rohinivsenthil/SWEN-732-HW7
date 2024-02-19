@@ -51,17 +51,16 @@ class LibraryVisitor(Visitor):
 
 class LibraryCatalog:
     def __init__(self):
-        self.library_items = []
-        self.dvd_items = []
+        self.items = []
 
     def add_book(self, item):
-        self.library_items.append(item)
+        self.items.append(item)
 
     def add_dvd(self, item):
-        self.dvd_items.append(item)
+        self.items.append(item)
 
     def borrow_book(self, book_title):
-        for item in self.library_items:
+        for item in self.items:
             if isinstance(item, Book) and item.title == book_title and item.is_available:
                 item.is_available = False
                 print(f"You have borrowed the book '{book_title}' from the library.")
@@ -69,18 +68,28 @@ class LibraryCatalog:
         print(f"The book '{book_title}' is not available in the library.")
 
     def borrow_dvd(self, dvd_title):
-        for item in self.dvd_items:
+        for item in self.items:
             if isinstance(item, DVD) and item.title == dvd_title and item.is_available:
                 item.is_available = False
                 print(f"You have borrowed the DVD '{dvd_title}' from the library.")
                 return
         print(f"The DVD '{dvd_title}' is not available in the library.")
     
-    def return_book(book):
-        book.is_available = True
+    def return_book(self, book_title):
+        for item in self.items:
+            if isinstance(item, Book) and item.title == book_title and item.is_available == False:
+                item.is_available = True
+                print(f"The book '{book_title}' is returned to the library.")
+                return
+        print(f"The book '{book_title}' is already in the library.")
 
-    def return_dvd(dvd):
-        dvd.is_available = True
+    def return_dvd(self, dvd_title):
+        for item in self.items:
+            if isinstance(item, Book) and item.title == dvd_title and item.is_available == False:
+                item.is_available = True
+                print(f"The book '{dvd_title}' is returned to the library.")
+                return
+        print(f"The book '{dvd_title}' is already in the library.")
 
 
 # Example Usage
@@ -90,8 +99,10 @@ if __name__ == "__main__":
     catalog.add_book(Book("To Kill a Mockingbird", "Harper Lee"))
     catalog.add_book(Book("1984", "George Orwell"))
 
-    book_to_borrow = "1984"
-    catalog.borrow_book(book_to_borrow)
-    catalog.borrow_book(book_to_borrow)  # Try to borrow the same book again
+    book = "1984"
+    catalog.borrow_book(book)
+    catalog.borrow_book(book)  # Try to borrow the same book again
+    catalog.return_book(book)
+    catalog.borrow_book(book)
 
-    #TODO: add more example usage for the TODO functions
+   
