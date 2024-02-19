@@ -38,17 +38,16 @@ class Visitor(ABC):
 # Concrete Visitors
 class LibraryVisitor(Visitor):
     def visit_book(self, book):
-        #TODO: add code to check if book's is_available attribute is True 
-        #(add print statmenets to let teh visitor know if the book is available or not)
-        # if book.is_available:
-        #     print(f"The book '{book.title}' is available in the library.")
-        # else:
-        #     print(f"The book '{book.title}' is not available in the library.")
-        pass
+        if book.is_available:
+            print(f"The book '{book.title}' is available in the library.")
+        else:
+            print(f"The book '{book.title}' is not available in the library.")
 
     def visit_dvd(self, dvd):
-        #TODO: add code to check if dvd is available, similar to visit_book
-        pass
+        if dvd.is_available:
+            print(f"The DVD '{dvd.title}' is available in the library.")
+        else:
+            print(f"The DVD '{dvd.title}' is not available in the library.")
 
 class LibraryCatalog:
     def __init__(self):
@@ -77,13 +76,11 @@ class LibraryCatalog:
                 return
         print(f"The DVD '{dvd_title}' is not available in the library.")
     
-    def return_book():
-        #TODO: add code to set available attribute of book back to True
-        return
-    
-    def return_dvd():
-        #TODO: add code to set available attribute of dvd back to True
-        return
+    def return_book(book):
+        book.is_available = True
+
+    def return_dvd(dvd):
+        dvd.is_available = True
 
 
 # Example Usage
