@@ -17,7 +17,10 @@ class Book(LibraryItem):
         visitor.visit_book(self)
 
 class DVD(LibraryItem):
-    #TODO: define attributes for DVD
+    def __init__(self, title, director):
+        self.title = title
+        self.director = director
+        self.is_available = True
 
     def accept(self, visitor):
         visitor.visit_dvd(self)
@@ -50,9 +53,13 @@ class LibraryVisitor(Visitor):
 class LibraryCatalog:
     def __init__(self):
         self.library_items = []
+        self.dvd_items = []
 
-    def add_item(self, item):
+    def add_book(self, item):
         self.library_items.append(item)
+
+    def add_dvd(self, item):
+        self.dvd_items.append(item)
 
     def borrow_book(self, book_title):
         for item in self.library_items:
@@ -62,9 +69,13 @@ class LibraryCatalog:
                 return
         print(f"The book '{book_title}' is not available in the library.")
 
-    def borrow_dvd():
-        #TODO: add code to set dvd available attribute to False, similar to borrow_book
-        return
+    def borrow_dvd(self, dvd_title):
+        for item in self.dvd_items:
+            if isinstance(item, DVD) and item.title == dvd_title and item.is_available:
+                item.is_available = False
+                print(f"You have borrowed the DVD '{dvd_title}' from the library.")
+                return
+        print(f"The DVD '{dvd_title}' is not available in the library.")
     
     def return_book():
         #TODO: add code to set available attribute of book back to True
@@ -78,11 +89,9 @@ class LibraryCatalog:
 # Example Usage
 if __name__ == "__main__":
     catalog = LibraryCatalog()
-    catalog.add_item(Book("The Great Gatsby", "F. Scott Fitzgerald"))
-    catalog.add_item(Book("To Kill a Mockingbird", "Harper Lee"))
-    catalog.add_item(Book("1984", "George Orwell"))
-    catalog.add_item(Book("The Catcher in the Rye", "J.D. Salinger"))
-    catalog.add_item(Book("Pride and Prejudice", "Jane Austen"))
+    catalog.add_book(Book("The Great Gatsby", "F. Scott Fitzgerald"))
+    catalog.add_book(Book("To Kill a Mockingbird", "Harper Lee"))
+    catalog.add_book(Book("1984", "George Orwell"))
 
     book_to_borrow = "1984"
     catalog.borrow_book(book_to_borrow)
